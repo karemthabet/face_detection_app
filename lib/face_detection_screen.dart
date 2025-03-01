@@ -15,7 +15,6 @@ class FaceDetectionScreen extends StatefulWidget {
 class _FaceDetectionScreenState extends State<FaceDetectionScreen> {
   File? _image;
   List<Face> faces = [];
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +66,7 @@ class _FaceDetectionScreenState extends State<FaceDetectionScreen> {
             ),
             SizedBox(height: 20),
             Text(
-              isLoading
-                  ? "Detecting faces..."
-                  : "Faces detected: ${faces.length}",
+              "Faces detected: ${faces.length}",
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -132,7 +129,6 @@ class _FaceDetectionScreenState extends State<FaceDetectionScreen> {
       setState(() {
         _image = File(image.path);
         faces = [];
-        isLoading = true;
       });
 
       await detectFaces(_image!);
@@ -144,17 +140,22 @@ class _FaceDetectionScreenState extends State<FaceDetectionScreen> {
   }
 
   Future detectFaces(File image) async {
-    final options =
-        FaceDetectorOptions(performanceMode: FaceDetectorMode.accurate);
-    final faceDetector = FaceDetector(options: options);
-    final inputImage = InputImage.fromFilePath(image.path);
+  final options = FaceDetectorOptions(
+    performanceMode: FaceDetectorMode.fast,
+    enableLandmarks: false, 
+    enableClassification: false, 
+  );
 
-    final detectedFaces = await faceDetector.processImage(inputImage);
-    setState(() {
-      faces = detectedFaces;
-      isLoading = false;
-    });
+  final faceDetector = FaceDetector(options: options);
+  final inputImage = InputImage.fromFilePath(image.path);
 
-    faceDetector.close();
-  }
+  final detectedFaces = await faceDetector.processImage(inputImage);
+  
+  setState(() {
+    faces = detectedFaces;
+  });
+
+  faceDetector.close();
+}
+
 }

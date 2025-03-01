@@ -1,0 +1,2 @@
+E:/Flutter/Projects/face_detection_app/android/app/.cxx/RelWithDebInfo/1n4x1m18/x86_64/CMakeFiles/edit_cache.dir
+E:/Flutter/Projects/face_detection_app/android/app/.cxx/RelWithDebInfo/1n4x1m18/x86_64/CMakeFiles/rebuild_cache.dir
